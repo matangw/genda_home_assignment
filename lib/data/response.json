@@ -1,0 +1,140 @@
+{
+  "contractors": {
+    "1": {
+      "name": "Jungle Builders"
+    },
+    "2": {
+      "name": "Habonim Hahofshiim"
+    },
+    "3": {
+      "name": "Jaguar Constructions"
+    }
+  },
+  "levels": [
+    {
+      "name": "01",
+      "apartments": [
+        "#11",
+        "#02",
+        "#25"
+      ]
+    },
+    {
+      "name": "02",
+      "apartments": [
+        "#16",
+        "#88"
+      ]
+    },
+    {
+      "name": "03",
+      "apartments": [
+        "#07"
+      ]
+    },
+    {
+      "name": "04",
+      "apartments": [
+        "#05",
+        "#26",
+        "#44"
+      ]
+    },
+    {
+      "name": "05",
+      "apartments": [
+        "#33",
+        "#10",
+        "#09"
+      ]
+    },
+    {
+      "name": "06",
+      "apartments": [
+        "#04",
+        "#09",
+        "#21",
+        "#15"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "name": "Shimon Shimonov",
+      "trade": "ceiling",
+      "contractor": "1",
+      "isCheckedIn": true,
+      "location": {
+        "level": 0,
+        "apartment": 2
+      },
+      "lastSeen": 20
+    },
+    {
+      "name": "James Bond",
+      "trade": "plaster",
+      "contractor": "3",
+      "isCheckedIn": true,
+      "location": {
+        "level": 5,
+        "apartment": 1
+      },
+      "lastSeen": 64
+    },
+    {
+      "name": "Tzipi Shavit",
+      "trade": "bricks",
+      "contractor": "2",
+      "isCheckedIn": true,
+      "location": {
+        "level": 5,
+        "apartment": 3
+      },
+      "lastSeen": 11
+    },
+    {
+      "name": "Kofiko",
+      "trade": "doors",
+      "contractor": "1",
+      "isCheckedIn": false,
+      "location": {
+        "level": 0,
+        "apartment": 0
+      },
+      "lastSeen": 2000
+    },
+    {
+      "name": "Hari Krishna",
+      "trade": "doors",
+      "contractor": "1",
+      "isCheckedIn": true,
+      "location": {
+        "level": 1,
+        "apartment": 1
+      },
+      "lastSeen": 190
+    },
+    {
+      "name": "Sasi Keshet",
+      "trade": "bricks",
+      "contractor": "2",
+      "isCheckedIn": true,
+      "location": {
+        "level": 1,
+        "apartment": 0
+      },
+      "lastSeen": 50
+    },
+    {
+      "name": "Ash Katcham",
+      "trade": "plaster",
+      "contractor": "3",
+      "isCheckedIn": true,
+      "location": {
+        "level": 5,
+        "apartment": 0
+      },
+      "lastSeen": 113
+    }
+  ]
+}

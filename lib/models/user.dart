@@ -1,4 +1,5 @@
 import 'package:genda_home_assignment/models/location.dart';
+import 'dart:convert';
 
 class User{
 
@@ -18,11 +19,11 @@ class User{
     required this.lastSeen
 });
 
-  factory User.fromJosn(Map<String,dynamic> json){
+  factory User.fromJson(Map<String,dynamic> json){
     return User(
         name: json['name'],
         trade: json['trade'],
-        contractorId: json['contractor'],
+        contractorId: int.tryParse(json['contractor']) as int,
         isCheckedIn: json['isCheckedIn'],
         location: Location.fromJson(json['location']),
         lastSeen: json['lastSeen']

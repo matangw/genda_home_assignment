@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:genda_home_assignment/home_screen/home_page_model.dart';
 import 'package:genda_home_assignment/models/contractor.dart';
 import 'package:genda_home_assignment/models/location.dart';
 
@@ -15,6 +16,9 @@ class HomePageComponent extends StatefulWidget{
 }
 
 class _HomePageComponentState extends State<HomePageComponent> {
+
+
+  HomePageModel model = HomePageModel();
 
 
   bool isOpen = false;
@@ -168,14 +172,21 @@ class _HomePageComponentState extends State<HomePageComponent> {
      height: height,
      width: width,
      color: Colors.grey[300],
-     child:SingleChildScrollView(
-       child: ExpansionPanelList(
-         expansionCallback: ((i,newIsOpen)=>setState(()=> isOpen=!newIsOpen)),
-         animationDuration: Duration(milliseconds: 300),
-         children: [
-           contractorPanel(height*0.2, width, Contractor(name: 'name', number: 0),isOpen),
-         ],
-       ),
+     child:Column(
+       children: [
+         SizedBox(height: height*0.05,),
+         SingleChildScrollView(
+           child: ExpansionPanelList(
+             elevation: 0,
+             dividerColor: Colors.transparent,
+             expansionCallback: ((i,newIsOpen)=>setState(()=> isOpen=!newIsOpen)),
+             animationDuration: Duration(milliseconds: 300),
+             children: [
+               contractorPanel(height*0.2, width, Contractor(name: 'name', number: 0),isOpen),
+             ],
+           ),
+         ),
+       ],
      )
    );
   }
@@ -185,17 +196,26 @@ class _HomePageComponentState extends State<HomePageComponent> {
       backgroundColor: Colors.transparent,
         headerBuilder: (context, thisIsOpen){
           return Container(
-            height: height,
+            height: height*0.5,
             width: width,
-            child: Text('contractor name'),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('contractor name'),
+                Expanded(child: SizedBox()),
+                Text('1/2 checked in',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                SizedBox(width: width*0.1,)
+              ],
+            ),
           );
         },
         body: Container(
+          color: Colors.transparent,
           height: 300,
           width: width,
           child:ListView(
             padding: EdgeInsets.zero,
-            children: workerListCreation(height, width, [
+            children: workerListCreation(height, width*0.9, [
               User(name:'jj', trade: 'builder',
                   contractorId: 1,
                   isCheckedIn: true, location: Location(level:3 , apartment: 5),
@@ -217,40 +237,46 @@ class _HomePageComponentState extends State<HomePageComponent> {
   }
 
   Widget workerListTile(double height,double width,User user){
-      return Container(
-        height: height,
-        width: width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              color: Colors.red,
-              width: width*0.03,
-            ),
-            SizedBox(width: width*0.06,),
-            Container(
-              height: height,
-              width: width*0.1,
-              child: Center(
-                child: Icon(Icons.build,color: Colors.grey,),
-              ),
-            ),
-            SizedBox(width: width*0.06,),
-            Container(
-              height: height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('name'),
-                  Text('contractor'),
-                  Text('last seen'),
-                ],
-              ),
-            )
+      return Center(
+        child: Card(
+          elevation: 5,
+          child: Container(
+            color:Colors.white,
+            height: height,
+            width: width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  color: Colors.red,
+                  width: width*0.03,
+                ),
+                SizedBox(width: width*0.06,),
+                Container(
+                  height: height,
+                  width: width*0.1,
+                  child: Center(
+                    child: Icon(Icons.build,color: Colors.grey,),
+                  ),
+                ),
+                SizedBox(width: width*0.06,),
+                Container(
+                  height: height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('name'),
+                      Text('contractor'),
+                      Text('last seen'),
+                    ],
+                  ),
+                )
 
-          ],
-        )
+              ],
+            )
+          ),
+        ),
       );
   }
 

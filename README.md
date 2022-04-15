@@ -1,6 +1,5 @@
 # genda_home_assignment
-
-A new Flutter application.
+matan's home assignment for genda application
 
 ## Getting Started
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:genda_home_assignment/home_screen/home_screen_component.dart';
+import 'package:genda_home_assignment/home_screen/home_page_component.dart';
 
 void main() {
   runApp(const MyApp());

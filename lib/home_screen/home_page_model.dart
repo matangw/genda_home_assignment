@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:genda_home_assignment/home_screen/home_page_view.dart';
 import 'package:genda_home_assignment/models/contractor.dart';
 import 'package:genda_home_assignment/models/level.dart';
 import 'package:genda_home_assignment/models/location.dart';
@@ -7,14 +8,23 @@ import 'dart:convert';
 
 class HomePageModel{
 
+  HomePageView view ;
+
+
+  ///controlled data
   late List<User> workers = [];
   late List<Level> levels = [];
   late List<Contractor> contractors = [];
 
-  HomePageModel(){
-    getDataFromJsonFile();
+  HomePageModel(this.view){
+    getAllData();
   }
 
+  Future<void> getAllData()async{
+    await getDataFromJsonFile();
+    view.finishedLoading();
+
+  }
 
   Future<void> getDataFromJsonFile() async{
     final String response = await rootBundle.loadString('data/response.json'); ///file name

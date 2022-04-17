@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:genda_home_assignment/home_screen/home_page_model.dart';
+import 'package:genda_home_assignment/home_screen/home_page_presenter.dart';
 import 'package:genda_home_assignment/models/contractor.dart';
 import 'package:genda_home_assignment/models/location.dart';
 
 import '../models/level.dart';
 import '../models/user.dart';
+import 'home_page_view.dart';
 
 
 class HomePageComponent extends StatefulWidget{
@@ -15,13 +17,26 @@ class HomePageComponent extends StatefulWidget{
   State<HomePageComponent> createState() => _HomePageComponentState();
 }
 
-class _HomePageComponentState extends State<HomePageComponent> {
+class _HomePageComponentState extends State<HomePageComponent> implements HomePageView {
 
 
-  HomePageModel model = HomePageModel();
+  /// model
+  late HomePagePresenter presenter;
 
+  ///loading parameters
+  bool isLoading = true;
+  List<Contractor> contractors = [];
+  List<Level> levels = [];
+  List<User> workers = [];
 
-  bool isOpen = false;
+  ///presentation variables
+  List<bool> isOpen = [];
+
+  @override
+  void initState() {
+    presenter = HomePagePresenter(this);
+    super.initState();
+  }
 
  @override
   Widget build(BuildContext context) {
@@ -34,7 +49,8 @@ class _HomePageComponentState extends State<HomePageComponent> {
         child: Container(
           height: height,
           width: width,
-          child: Column(
+          child: isLoading? const Center(child: CircularProgressIndicator(color: Colors.blueGrey,),)
+          :Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               upperContainer(height*0.4, width),
@@ -75,9 +91,9 @@ class _HomePageComponentState extends State<HomePageComponent> {
          Row(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
-             dataContainer(height*0.35, width*0.25, '97', 'TOTAL', 'WORKERS', Colors.white),
-             dataContainer(height*0.35, width*0.25, '30', 'CHEACKED', 'IN', Colors.orange),
-             dataContainer(height*0.35, width*0.25, '67', 'CHEACKED', 'OUT', Colors.blue),
+             dataContainer(height*0.35, width*0.25, presenter.getTotalWorkers().length.toString(), 'TOTAL', 'WORKERS', Colors.white),
+             dataContainer(height*0.35, width*0.25, presenter.getCheckedInWorkers().length.toString(), 'CHEACKED', 'IN', Colors.orange),
+             dataContainer(height*0.35, width*0.25, presenter.getCHeckedOutWorkers().length.toString(), 'CHEACKED', 'OUT', Colors.blue),
            ],
          ),
          Expanded(child: SizedBox()),
@@ -114,6 +130,7 @@ class _HomePageComponentState extends State<HomePageComponent> {
 
 
   Widget levelRow(double height,double width,List<Level> levels){
+    print(presenter.numberOfPeopleInLevelMap().toString());
    return Center(
      child: Container(
        height: height,
@@ -121,9 +138,12 @@ class _HomePageComponentState extends State<HomePageComponent> {
        child: Row(
          crossAxisAlignment: CrossAxisAlignment.end,
          children: [
-           levelContainer(height, width*0.3, 0.6, 8, '16', Colors.blueGrey),
-           levelContainer(height, width*0.3, 0.8, 12, '02', Colors.blueGrey[400] as Color),
-           levelContainer(height, width*0.3, 0.3, 6, '04', Colors.blueGrey[600] as Color)
+           presenter.topThreeWorkingLevels().length<2? Container()
+               :levelContainer(height, width*0.3, 0.6,presenter.topThreeWorkingLevels()[1], Colors.blueGrey),
+           presenter.topThreeWorkingLevels().isEmpty? Container()
+               :levelContainer(height, width*0.3, 0.8, presenter.topThreeWorkingLevels()[0], Colors.blueGrey[400] as Color),
+           presenter.topThreeWorkingLevels().length<3? Container()
+               :levelContainer(height, width*0.3, 0.3,presenter.topThreeWorkingLevels()[2], Colors.blueGrey[600] as Color)
          ],
        ),
      ),
@@ -131,7 +151,7 @@ class _HomePageComponentState extends State<HomePageComponent> {
   }
 
 
-  Widget levelContainer(double height,double width,double insideHeight,int numberOfWorkers,String level,Color color){
+  Widget levelContainer(double height,double width,double insideHeight,Level level,Color color){
    return Container(
      height: height,
      width: width,
@@ -145,7 +165,7 @@ class _HomePageComponentState extends State<HomePageComponent> {
              mainAxisAlignment: MainAxisAlignment.center,
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
-               Text(numberOfWorkers.toString(),style: TextStyle(color: Colors.blueGrey),),
+               Text(presenter.numberOfPeopleInLevelMap()[int.tryParse(level.name)].toString(),style: TextStyle(color: Colors.blueGrey),),
                Icon(Icons.group,color: Colors.blueGrey[600],),
              ],
            ),
@@ -158,7 +178,7 @@ class _HomePageComponentState extends State<HomePageComponent> {
            child: Align(
              alignment: Alignment.bottomLeft,
              child: RichText(text: TextSpan(text: 'LVL',style: TextStyle(color: Colors.grey[200],fontSize: height*0.1,fontWeight: FontWeight.bold),children: [
-               TextSpan(text: level,style: TextStyle(color: Colors.grey[200],fontSize: height*0.2,fontWeight: FontWeight.bold))
+               TextSpan(text: level.name,style: TextStyle(color: Colors.grey[200],fontSize: height*0.2,fontWeight: FontWeight.bold))
              ]),),
            ),
          )
@@ -179,17 +199,27 @@ class _HomePageComponentState extends State<HomePageComponent> {
            child: ExpansionPanelList(
              elevation: 0,
              dividerColor: Colors.transparent,
-             expansionCallback: ((i,newIsOpen)=>setState(()=> isOpen=!newIsOpen)),
+             expansionCallback: ((i,newIsOpen)=>setState(()=> isOpen[i]=!newIsOpen)),
              animationDuration: Duration(milliseconds: 300),
-             children: [
-               contractorPanel(height*0.2, width, Contractor(name: 'name', number: 0),isOpen),
-             ],
+             children: contractorPanelListCreation(height*0.2, width),
            ),
          ),
        ],
      )
    );
   }
+
+  List<ExpansionPanel> contractorPanelListCreation(double panelHeight,double panelWidth){
+   List<ExpansionPanel> result  = [];
+   int counter = 0;
+   contractors.forEach((contractor) {
+     isOpen.add(false);
+     result.add(contractorPanel(panelHeight, panelWidth, contractor, isOpen[counter]));
+     counter++;
+   });
+   return result;
+  }
+
 
   ExpansionPanel contractorPanel(double height,double width,Contractor contractor,bool thisIsOpen){
     return ExpansionPanel(
@@ -279,6 +309,16 @@ class _HomePageComponentState extends State<HomePageComponent> {
         ),
       );
   }
+
+  @override
+  void finishedLoading() {
+      setState((){
+        isLoading = false;
+        contractors = presenter.model.contractors;
+        levels = presenter.model.levels;
+        workers = presenter.model.workers;
+      });
+ }
 
 
 }

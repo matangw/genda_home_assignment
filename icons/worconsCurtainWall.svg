@@ -1,0 +1,11 @@
+<svg width="43" height="43" viewBox="0 0 43 43" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="nonzero" fill="none">
+        <path fill="#C0C4CA" d="m5.116 29.755 24.036 9.663v1.41L5.116 31.272z"/>
+        <path fill="#A5A9B0" d="m29.152 40.829 7.561-4.915v-1.235l-7.56 4.739z"/>
+        <path fill="#7F848D" d="m36.713 34.679-23.376-8.623-8.221 3.7 24.036 9.662z"/>
+        <path fill="#C3C5CA" opacity=".4" d="m10.44 28.983 20.097 7.898V7.78L10.44 2.913z"/>
+        <path fill="#575B62" opacity=".703" d="m30.537 36.88.91-.543V7.41L11.639 2.634l-1.199.279L30.537 7.78z"/>
+        <path d="m10.393.923-.824.352v26.782l-.6-.221V1.156l.893-.36.53.127zM15.35 2.118l-.754.413v27.474l-.6-.22V2.411l.818-.423.536.13zM21.025 3.492l-.648.425V32.27l-.6-.22V3.8l.704-.44.544.132z" fill="#575B62" opacity=".297" style="mix-blend-mode:multiply" transform="translate(5.116 2.634)"/>
+        <path d="m5.318 17.86 20.07 7.205.917-.701v.474l-.85.652-20.137-7.23v-.4zM5.318 7.836l20.065 5.622.922-.692v.472l-.845.633L5.318 8.226v-.39z" fill="#575B62" opacity=".297" style="mix-blend-mode:multiply" transform="translate(5.116 2.634)"/>
+    </g>
+</svg>

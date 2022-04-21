@@ -1,12 +1,15 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:genda_home_assignment/home_screen/home_page_model.dart';
 import 'package:genda_home_assignment/home_screen/home_page_presenter.dart';
 import 'package:genda_home_assignment/models/contractor.dart';
 import 'package:genda_home_assignment/models/location.dart';
+import 'package:genda_home_assignment/utils/general_utils.dart';
 
 import '../models/level.dart';
 import '../models/user.dart';
+import '../utils/icons_utils.dart';
 import 'home_page_view.dart';
 
 
@@ -31,6 +34,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
 
   ///presentation variables
   List<bool> isOpen = [];
+  int currentFilter = 1;  /// 1 = total workers  || 2 = checked in || 3 = checked out
 
   @override
   void initState() {
@@ -91,13 +95,17 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
          Row(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
-             dataContainer(height*0.35, width*0.25, presenter.getTotalWorkers().length.toString(), 'TOTAL', 'WORKERS', Colors.white),
-             dataContainer(height*0.35, width*0.25, presenter.getCheckedInWorkers().length.toString(), 'CHEACKED', 'IN', Colors.orange),
-             dataContainer(height*0.35, width*0.25, presenter.getCHeckedOutWorkers().length.toString(), 'CHEACKED', 'OUT', Colors.blue),
+             dataContainer(height*0.35, width*0.25,1 ,presenter.getTotalWorkers().length.toString(), 'TOTAL', 'WORKERS', Colors.white),
+             dataContainer(height*0.35, width*0.25,2 ,presenter.getCheckedInWorkers().length.toString(), 'CHEACKED', 'IN', Colors.blue),
+             dataContainer(height*0.35, width*0.25,3, presenter.getCHeckedOutWorkers().length.toString(), 'CHEACKED', 'OUT', Colors.orange),
            ],
          ),
          Expanded(child: SizedBox()),
-         levelRow(height*0.4, width*0.6, []),
+         Container(width: width*0.85,
+           child: Row(children: [Text('BUSIEST LEVELS',style: TextStyle(color: Colors.blueGrey,fontWeight: FontWeight.bold,fontSize: height*0.06),)],),
+         ),
+         Expanded(child: SizedBox()),
+         levelRow(height*0.38, width*0.6, []),
          Container(
            height: height*0.05,
            width: width,
@@ -108,21 +116,35 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    );
   }
 
-  Widget dataContainer(double height,double width,String value,String title,String subtitle,Color color){
-   return Container(
-     margin: EdgeInsets.symmetric(horizontal: width*0.1),
-     padding: EdgeInsets.symmetric(horizontal: width*0.05,vertical: height*0.05),
-     height: height,
-     width: width,
-     color: Colors.blueGrey,
-     child: Column(
-       crossAxisAlignment: CrossAxisAlignment.start,
-       mainAxisAlignment: MainAxisAlignment.end,
-       children: [
-         Text(value.toString(),style: TextStyle(color:color,fontSize: height*0.35,fontWeight: FontWeight.bold ),textAlign: TextAlign.start,),
-         Text(title,style: TextStyle(color: color,fontSize: height*0.16,fontWeight: FontWeight.bold),textAlign: TextAlign.start,),
-         Text(subtitle,style: TextStyle(color: color,fontSize: height*0.12,fontWeight: FontWeight.bold),textAlign: TextAlign.start,)
-       ],
+  Widget dataContainer(double height,double width,int filter,String value,String title,String subtitle,Color color){
+   return InkWell(
+       onTap: ()=> presenter.setNewFilter(filter),
+     child: Container(
+       margin: EdgeInsets.symmetric(horizontal: width*0.1),
+       padding: EdgeInsets.symmetric(horizontal: width*0.05,vertical: height*0.05),
+       height: height,
+       width: width,
+       color: Colors.blueGrey,
+       child: Stack(
+         children: [
+           Positioned(top: height*0.01,right: width*0.01,child: filter == currentFilter?
+                IconsUtils().SvgIcon(path: 'icons/eyeWhite.svg',color: Colors.white, height: height*0.18,width: width*0.18)
+               : Container()) ,
+           Positioned(
+             bottom: height*0.01,
+             left: width*0.01,
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               mainAxisAlignment: MainAxisAlignment.end,
+               children: [
+                 Text(value.toString(),style: TextStyle(color:color,fontSize: height*0.35,fontWeight: FontWeight.bold ),textAlign: TextAlign.start,),
+                 Text(title,style: TextStyle(color: color,fontSize: height*0.16,fontWeight: FontWeight.bold),textAlign: TextAlign.start,),
+                 Text(subtitle,style: TextStyle(color: color,fontSize: height*0.12,fontWeight: FontWeight.bold),textAlign: TextAlign.start,)
+               ],
+             ),
+           ),
+         ],
+       ),
      ),
    );
   }
@@ -139,11 +161,11 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
          crossAxisAlignment: CrossAxisAlignment.end,
          children: [
            presenter.topThreeWorkingLevels().length<2? Container()
-               :levelContainer(height, width*0.3, 0.6,presenter.topThreeWorkingLevels()[1], Colors.blueGrey),
+               :levelContainer(height, width*0.33, 0.6,presenter.topThreeWorkingLevels()[1], Colors.blueGrey),
            presenter.topThreeWorkingLevels().isEmpty? Container()
-               :levelContainer(height, width*0.3, 0.8, presenter.topThreeWorkingLevels()[0], Colors.blueGrey[400] as Color),
+               :levelContainer(height, width*0.33, 0.8, presenter.topThreeWorkingLevels()[0], Colors.blueGrey[400] as Color),
            presenter.topThreeWorkingLevels().length<3? Container()
-               :levelContainer(height, width*0.3, 0.3,presenter.topThreeWorkingLevels()[2], Colors.blueGrey[600] as Color)
+               :levelContainer(height, width*0.33, 0.3,presenter.topThreeWorkingLevels()[2], Colors.blueGrey[600] as Color)
          ],
        ),
      ),
@@ -160,17 +182,20 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
        mainAxisAlignment: MainAxisAlignment.end,
        children: [
          Container(
-           height: height*0.15,
-           child: Row(
-             mainAxisAlignment: MainAxisAlignment.center,
-             crossAxisAlignment: CrossAxisAlignment.start,
-             children: [
-               Text(presenter.numberOfPeopleInLevelMap()[int.tryParse(level.name)].toString(),style: TextStyle(color: Colors.blueGrey),),
-               Icon(Icons.group,color: Colors.blueGrey[600],),
-             ],
+           height: height*0.2,
+           child: Align(
+             alignment: Alignment.bottomCenter,
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Text(presenter.numberOfPeopleInLevelMap()[int.tryParse(level.name)].toString(),style: TextStyle(color: Colors.blueGrey),),
+                 SizedBox(width: width*0.05),
+                 IconsUtils().SvgIcon(path: 'icons/combinedShape.svg',height: height*0.3),
+               ],
+             ),
            ),
          ),
-         SizedBox(height: height*0.05,),
          Container(
            padding: EdgeInsets.symmetric(horizontal: width*0.08),
            color: color,
@@ -195,13 +220,16 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
      child:Column(
        children: [
          SizedBox(height: height*0.05,),
-         SingleChildScrollView(
-           child: ExpansionPanelList(
-             elevation: 0,
-             dividerColor: Colors.transparent,
-             expansionCallback: ((i,newIsOpen)=>setState(()=> isOpen[i]=!newIsOpen)),
-             animationDuration: Duration(milliseconds: 300),
-             children: contractorPanelListCreation(height*0.2, width),
+         Container(
+           height: height*0.95,
+           child: SingleChildScrollView(
+             child: ExpansionPanelList(
+               elevation: 0,
+               dividerColor: Colors.transparent,
+               expansionCallback: ((i,newIsOpen)=>setState(()=> isOpen[i]=!newIsOpen)),
+               animationDuration: Duration(milliseconds: 300),
+               children: contractorPanelListCreation(height*0.2, width),
+             ),
            ),
          ),
        ],
@@ -231,9 +259,12 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text('contractor name'),
+                Text(contractor.name,
+                  overflow: TextOverflow.fade,
+                  style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey[700],fontSize: height*0.18),),
                 Expanded(child: SizedBox()),
-                Text('1/2 checked in',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                Text('${presenter.checkedInWorkersForContractor(contractor).length}/${presenter.workersForContractor(contractor).length} Checked in',
+                  style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
                 SizedBox(width: width*0.1,)
               ],
             ),
@@ -241,16 +272,12 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
         },
         body: Container(
           color: Colors.transparent,
-          height: 300,
+          height: height*1.1*presenter.workersForContractor(contractor,workersWithStatus: workers).length,
           width: width,
           child:ListView(
+            physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            children: workerListCreation(height, width*0.9, [
-              User(name:'jj', trade: 'builder',
-                  contractorId: 1,
-                  isCheckedIn: true, location: Location(level:3 , apartment: 5),
-                  lastSeen: 3)]),
-          ) ,
+            children: workerListCreation(height, width*0.9,presenter.workersForContractor(contractor,workersWithStatus: workers)),) ,
         ),
       isExpanded: thisIsOpen
     );
@@ -278,15 +305,24 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  color: Colors.red,
+                  color: GeneralUtils().getTradeColor(user.trade),
                   width: width*0.03,
                 ),
                 SizedBox(width: width*0.06,),
                 Container(
                   height: height,
-                  width: width*0.1,
-                  child: Center(
-                    child: Icon(Icons.build,color: Colors.grey,),
+                  width: width*0.14,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconsUtils().SvgIcon(
+                          path: IconsUtils().pathIconForTrade(user.trade),
+                          color: Colors.grey,
+                          height: height*0.6,
+                          width: width*0.1
+                      ),
+                      Text(user.trade,style: TextStyle(color: Colors.grey,fontSize: height*0.15),)
+                    ],
                   ),
                 ),
                 SizedBox(width: width*0.06,),
@@ -296,9 +332,16 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('name'),
-                      Text('contractor'),
-                      Text('last seen'),
+                      Text(user.name,style: TextStyle(fontSize: height*0.2,color: Colors.blueGrey[700],fontWeight: FontWeight.w500),),
+                      Text(presenter.contractorById(user.contractorId).name,style: TextStyle(fontSize: height*0.16,color: Colors.blueGrey),),
+                      RichText(text: TextSpan(text: 'Arrived to ', style: TextStyle(color: Colors.black,fontSize: height*0.14),
+                        children: [
+                          TextSpan(text: presenter.locationString(user.location),style: TextStyle(color: Colors.blue,fontSize: height*0.14)),
+                          TextSpan(text: '    '),
+                          TextSpan(text: presenter.lastSeenString(user.lastSeen),style: TextStyle(color: Colors.black,fontSize: height*0.14))
+                        ]
+                      ),
+                      )
                     ],
                   ),
                 )
@@ -319,6 +362,14 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
         workers = presenter.model.workers;
       });
  }
+
+  @override
+  void filterChanged(List<User> usersMatched,int filter) {
+    setState(() {
+      currentFilter = filter;
+      this.workers= usersMatched;
+    });
+  }
 
 
 }

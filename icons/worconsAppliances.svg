@@ -1,0 +1,25 @@
+<svg width="43" height="43" viewBox="0 0 43 43" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(.958 .958)" fill-rule="nonzero" fill="none">
+        <g transform="translate(3.125 16.32)">
+            <rect fill="#7F848D" width="16.204" height="17.477" rx="1.157"/>
+            <rect fill="#A5A9B0" x="2.315" y="5.903" width="11.574" height="9.259" rx=".579"/>
+            <rect fill="#EEF1F6" x="3.472" y="6.829" width="9.259" height="7.407" rx=".579"/>
+            <circle fill="#EEF1F6" cx="10.012" cy="2.604" r="1"/>
+            <circle fill="#EEF1F6" cx="12.905" cy="2.604" r="1"/>
+            <circle fill="#EEF1F6" cx="7.118" cy="2.604" r="1"/>
+            <rect fill="#EEF1F6" x="2.315" y="2.199" width="1.968" height="1.042" rx=".521"/>
+        </g>
+        <path d="M20.95 17.94h16.203v14.699c0 .64-.518 1.157-1.158 1.157H22.106c-.639 0-1.157-.518-1.157-1.157v-14.7z" fill="#7F848D"/>
+        <path d="M22.106 14.815h13.89c.639 0 1.157.518 1.157 1.157v1.968H20.949v-1.968c0-.639.518-1.157 1.157-1.157z" fill="#7F848D"/>
+        <circle fill="#A5A9B0" cx="29.109" cy="24.826" r="4.803"/>
+        <circle stroke="#EEF1F6" stroke-width=".81" stroke-linecap="round" stroke-linejoin="round" cx="29.109" cy="24.826" r="3.646"/>
+        <path d="M29.167 22.685c1.182 0 2.14.959 2.14 2.141" stroke="#F7F9FC" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g transform="translate(12.731 5.787)">
+            <path d="M0 8.912h16.204v19.329c0 .959-.778 1.736-1.736 1.736H1.736A1.736 1.736 0 0 1 0 28.24V8.912z" fill="#575B62"/>
+            <rect fill="#EEF1F6" transform="rotate(-180 2.662 15.104)" x="2.083" y="10.822" width="1.157" height="8.565" rx=".579"/>
+            <path d="M1.736 0h12.732c.958 0 1.736.777 1.736 1.736v6.829H0V1.736C0 .777.777 0 1.736 0z" fill="#575B62"/>
+            <rect fill="#EEF1F6" transform="rotate(-180 2.662 4.861)" x="2.083" y="3.067" width="1.157" height="3.588" rx=".579"/>
+        </g>
+        <path fill="#EEF1F6" d="M28.935 12.5h1v23.495h-1zM11.806 12.5h1v23.495h-1z"/>
+    </g>
+</svg>

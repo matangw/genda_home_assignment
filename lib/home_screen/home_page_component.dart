@@ -13,6 +13,9 @@ import '../utils/icons_utils.dart';
 import 'home_page_view.dart';
 
 
+// this class is the screen, the front
+
+
 class HomePageComponent extends StatefulWidget{
 
 
@@ -68,7 +71,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   }
 
 
-
+  // custom app bar
   PreferredSizeWidget myAppBar(){
    return AppBar(
      backgroundColor: Colors.blueGrey,
@@ -82,6 +85,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    );
   }
 
+  //the upper half of the screen, depends on smaller widgets
   Widget upperContainer(double height,double width){
    return Container(
      height: height,
@@ -116,6 +120,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    );
   }
 
+
+  // widget that represent the 3 upper containers with the number of workers in each category
   Widget dataContainer(double height,double width,int filter,String value,String title,String subtitle,Color color){
    return InkWell(
        onTap: ()=> presenter.setNewFilter(filter),
@@ -150,7 +156,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   }
 
 
-
+  // the most busiest levels, depends on smaller widget  :::: levelContainer
   Widget levelRow(double height,double width,List<Level> levels){
     print(presenter.numberOfPeopleInLevelMap().toString());
    return Center(
@@ -173,6 +179,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   }
 
 
+  // widget that represent one of the three busiest levels
   Widget levelContainer(double height,double width,double insideHeight,Level level,Color color){
    return Container(
      height: height,
@@ -212,6 +219,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    );
   }
 
+
+  // bottom half of the screen , depends on smaller widgets
   Widget bottomContainer(double height,double width){
    return Container(
      height: height,
@@ -237,6 +246,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    );
   }
 
+  // creates the panel list list
   List<ExpansionPanel> contractorPanelListCreation(double panelHeight,double panelWidth){
    List<ExpansionPanel> result  = [];
    int counter = 0;
@@ -248,7 +258,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    return result;
   }
 
-
+  // contractor expansion panel widget
   ExpansionPanel contractorPanel(double height,double width,Contractor contractor,bool thisIsOpen){
     return ExpansionPanel(
       backgroundColor: Colors.transparent,
@@ -285,6 +295,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   }
 
 
+  // create the worker list tile list to put in the contractor panel
   List<Widget> workerListCreation(double tileHeight,double tileWidth,List<User> workers){
    List<Widget> result = [];
    workers.forEach((worker) {
@@ -293,6 +304,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
    return result;
   }
 
+
+  // the worker list tile single widget
   Widget workerListTile(double height,double width,User user){
       return Center(
         child: Card(
@@ -353,6 +366,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
       );
   }
 
+
+  //executed when model finished loading
   @override
   void finishedLoading() {
       setState((){
@@ -363,6 +378,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
       });
  }
 
+ // executed when user changed the current workers filter. one of three
   @override
   void filterChanged(List<User> usersMatched,int filter) {
     setState(() {

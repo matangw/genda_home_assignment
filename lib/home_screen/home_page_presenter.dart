@@ -21,28 +21,36 @@ class HomePagePresenter{
     return model.workers;
   }
 
+  // return the present workers
   List<User> getCheckedInWorkers(){
     return model.workers.where((worker) => worker.isCheckedIn == true).toList();
   }
 
+  // return the not present workers
   List<User> getCHeckedOutWorkers(){
     return model.workers.where((worker) => worker.isCheckedIn ==false).toList();
   }
 
+  // input: level  , returns all the workers in the input level
   List<User> workersInLevel(Level level){
     return model.workers.where((worker)=> worker.location.level == int.tryParse(level.name)).toList();
 
   }
+
+  //input: contractor name, optinal: workers list with certin status. return all the workers that work for the contractor and have wanted status(optinal)
   List<User> workersForContractor(Contractor contractor,{List<User>? workersWithStatus}){
     List<User> list = workersWithStatus?? model.workers;
     return list.where((worker) => worker.contractorId == contractor.number).toList();
   }
 
+  //input:  contractor id , returns the contractor that answer that id
   Contractor contractorById(int id){
     return model.contractors.firstWhere((element) => element.number == id);
   }
 
   ///presentation variable manipulation
+
+  // map of all the levels and the number of people currently in them
   Map<int,int> numberOfPeopleInLevelMap(){
     Map<int,int> result = Map();
     for(var level in model.levels){
@@ -52,6 +60,7 @@ class HomePagePresenter{
     return result;
   }
 
+  // returns the 3 most busiest levels in order
   List<Level> topThreeWorkingLevels(){
         List<int> sortedLevelsNames = numberOfPeopleInLevelMap().keys.toList();
         sortedLevelsNames.sort((a, b) =>
@@ -70,10 +79,12 @@ class HomePagePresenter{
     return levelsSorted.getRange(0, 3).toList();
   }
 
+  // input contractor , returns the list of workers that currently checked in and working for the contractor
   List<User> checkedInWorkersForContractor(Contractor contractor){
-    return model.workers.where((element) => element.contractorId == contractor.number&&element.isCheckedIn).toList();
+    return getCheckedInWorkers().where((element) => element.contractorId == contractor.number).toList();
   }
 
+  // input: last seen var in minuets , returns the string to show in the screen itself
   String lastSeenString(int lastSeen){
     if(lastSeen<60){
       return '${lastSeen} minuets ago';
@@ -87,10 +98,12 @@ class HomePagePresenter{
 
   }
 
+  // input: location vat of user ,  returns the string to show in the screen itself
   String locationString(Location location){
     return 'Level #${location.level} | Apt #${location.apartment}';
   }
 
+  //input trade of user , returns the color that represent the trade
   Color tradeColor(String trade){
     if(trade == 'bricks' ){return Colors.red; }
     else if(trade == 'ceiling'){return Colors.blue;}

@@ -100,7 +100,7 @@ class HomePagePresenter{
 
   // input: location vat of user ,  returns the string to show in the screen itself
   String locationString(Location location){
-    return 'Level #${model.levels[location.levelIndex].name} | Apt #${location.apartment}';
+    return 'Level #${model.levels[location.levelIndex].name} | Apt #${model.levels[location.levelIndex].apartments[location.levelIndex]}';
   }
 
   //input trade of user , returns the color that represent the trade

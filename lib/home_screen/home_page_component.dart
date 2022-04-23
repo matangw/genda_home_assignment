@@ -27,7 +27,7 @@ class HomePageComponent extends StatefulWidget{
 class _HomePageComponentState extends State<HomePageComponent> implements HomePageView {
 
 
-  /// model
+  /// presenter
   late HomePagePresenter presenter;
 
   ///loading parameters
@@ -51,7 +51,6 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   Widget build(BuildContext context) {
    double height = MediaQuery.of(context).size.height - myAppBar().preferredSize.height- MediaQuery.of(context).padding.top;
    double width = MediaQuery.of(context).size.width;
-    // TODO: implement build
     return Scaffold(
       appBar: myAppBar(),
       body:  SingleChildScrollView(

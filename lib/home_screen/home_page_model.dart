@@ -49,7 +49,7 @@ class HomePageModel{
   //get workers data from json file with list of users
   void getWorkersData(var json){
     json.forEach((worker){
-      workers.add(User.fromJson(worker,levels));
+      workers.add(User.fromJson(worker,levels,));
     });
   }
 

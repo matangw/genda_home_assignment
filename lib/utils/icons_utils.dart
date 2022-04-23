@@ -28,8 +28,6 @@ class IconsUtils{
       else if(trade == 'ceiling') {return 'icons/worconsCleaningTl3.svg'; }
       else if(trade == 'doors'){return 'icons/worconsDoorsTl3.svg';}
       else if(trade == 'plaster'){return 'icons/worconsPlasterTl3.svg';}
-
-
       else
         {return '[-] no icon found';}
 

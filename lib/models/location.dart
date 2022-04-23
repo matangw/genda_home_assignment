@@ -2,16 +2,16 @@ import 'level.dart';
 
 class Location{
   int levelIndex;
-  int apartment;
+  int apartmentIndex;
 
-  Location({required this.levelIndex, required this.apartment});
+  Location({required this.levelIndex, required this.apartmentIndex});
 
 
   // instantiate location using json map
   factory Location.fromJson(Map<String,dynamic> json,List<Level> levels){
     return Location(
         levelIndex: levels[json['level']].index,
-        apartment: json['apartment']
+        apartmentIndex: json['apartment']
     );
   }
 

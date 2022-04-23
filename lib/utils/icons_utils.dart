@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 class IconsUtils{
 
 
+  // widget to use when wanting an svg image as widget
   Widget SvgIcon({
    required String path,
     Color? color,
@@ -21,6 +22,7 @@ class IconsUtils{
   }
 
 
+  // function with input of certain trade that will return the icon path for it
   String pathIconForTrade(String trade){
       if(trade == 'bricks') {return 'icons/worconsBricksTl3.svg'; }
       else if(trade == 'ceiling') {return 'icons/worconsCleaningTl3.svg'; }
@@ -29,7 +31,7 @@ class IconsUtils{
 
 
       else
-        {return 'no icon found';}
+        {return '[-] no icon found';}
 
   }
 

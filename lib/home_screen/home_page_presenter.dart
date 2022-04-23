@@ -33,7 +33,7 @@ class HomePagePresenter{
 
   // input: level  , returns all the workers in the input level
   List<User> workersInLevel(Level level){
-    return model.workers.where((worker)=> worker.location.level == int.tryParse(level.name)).toList();
+    return model.workers.where((worker)=> worker.location.levelIndex == level.index).toList();
 
   }
 
@@ -100,7 +100,7 @@ class HomePagePresenter{
 
   // input: location vat of user ,  returns the string to show in the screen itself
   String locationString(Location location){
-    return 'Level #${location.level} | Apt #${location.apartment}';
+    return 'Level #${model.levels[location.levelIndex].name} | Apt #${location.apartment}';
   }
 
   //input trade of user , returns the color that represent the trade
@@ -117,11 +117,13 @@ class HomePagePresenter{
   }
 
   /// helping hand functions
+  // get number of workers in single level from map
   int getNumberOfWorkersInLevel(int levelName){
     return numberOfPeopleInLevelMap()[levelName] as int;
   }
 
   /// ui setState changes
+  // set new filter state in the screen itself
   void setNewFilter(int filter){
     if(filter == 1 ){
       view.filterChanged(getTotalWorkers(),filter);

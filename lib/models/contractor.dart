@@ -6,6 +6,9 @@ class Contractor{
 
   Contractor({required this.name,required this.number});
 
+
+
+  // instantiate contractor using json map
   factory Contractor.fromJson(Map<String,dynamic> json){
     return Contractor(
         name: json.values.first,

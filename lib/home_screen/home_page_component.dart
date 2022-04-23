@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:genda_home_assignment/home_screen/home_page_model.dart';
 import 'package:genda_home_assignment/home_screen/home_page_presenter.dart';
 import 'package:genda_home_assignment/models/contractor.dart';
@@ -43,6 +44,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   void initState() {
     presenter = HomePagePresenter(this);
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,]);
   }
 
  @override
@@ -75,13 +77,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   PreferredSizeWidget myAppBar(){
    return AppBar(
      backgroundColor: Colors.blueGrey,
-     leading: const Icon(Icons.list),
+     leading:  const SizedBox(),
      title: const Text('My Team'),
-     actions: const [
-      Icon(Icons.add),
-       Icon(Icons.layers_outlined),
-      Icon(Icons.search)
-     ],
    );
   }
 
@@ -99,21 +96,21 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
          Row(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
-             dataContainer(height*0.35, width*0.25,1 ,presenter.getTotalWorkers().length.toString(), 'TOTAL', 'WORKERS', Colors.white),
-             dataContainer(height*0.35, width*0.25,2 ,presenter.getCheckedInWorkers().length.toString(), 'CHEACKED', 'IN', Colors.blue),
-             dataContainer(height*0.35, width*0.25,3, presenter.getCHeckedOutWorkers().length.toString(), 'CHEACKED', 'OUT', Colors.orange),
+             dataContainer(height*0.35, width*0.25,1 ,presenter.getTotalWorkers().length.toString(), 'TOTAL', 'WORKERS', MyColors().totalWorkersTextColor),
+             dataContainer(height*0.35, width*0.25,2 ,presenter.getCheckedInWorkers().length.toString(), 'CHEACKED', 'IN', MyColors().checkedInWorkersTextColor),
+             dataContainer(height*0.35, width*0.25,3, presenter.getCHeckedOutWorkers().length.toString(), 'CHEACKED', 'OUT', MyColors().checkedOutWorkersTextColor),
            ],
          ),
          Expanded(child: SizedBox()),
          Container(width: width*0.85,
-           child: Row(children: [Text('BUSIEST LEVELS',style: TextStyle(color: Colors.blueGrey,fontWeight: FontWeight.bold,fontSize: height*0.06),)],),
+           child: Row(children: [Text('BUSIEST LEVELS',style: TextStyle(color:MyColors().busiestLevelText,fontWeight: FontWeight.bold,fontSize: height*0.06),)],),
          ),
          Expanded(child: SizedBox()),
          levelRow(height*0.38, width*0.6, []),
          Container(
            height: height*0.05,
            width: width,
-           color: Colors.blueGrey,
+           color: MyColors().dataContainerGrey,
          )
        ],
      ),
@@ -130,7 +127,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
        padding: EdgeInsets.symmetric(horizontal: width*0.05,vertical: height*0.05),
        height: height,
        width: width,
-       color: Colors.blueGrey,
+       color: MyColors().dataContainerGrey,
        child: Stack(
          children: [
            Positioned(top: height*0.01,right: width*0.01,child: filter == currentFilter?
@@ -167,11 +164,11 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
          crossAxisAlignment: CrossAxisAlignment.end,
          children: [
            presenter.topThreeWorkingLevels().length<2? Container()
-               :levelContainer(height, width*0.33, 0.6,presenter.topThreeWorkingLevels()[1], Colors.blueGrey),
+               :levelContainer(height, width*0.33, 0.6,presenter.topThreeWorkingLevels()[1], MyColors().leftLevelColor),
            presenter.topThreeWorkingLevels().isEmpty? Container()
-               :levelContainer(height, width*0.33, 0.8, presenter.topThreeWorkingLevels()[0], Colors.blueGrey[400] as Color),
+               :levelContainer(height, width*0.33, 0.8, presenter.topThreeWorkingLevels()[0], MyColors().middleLevelColor),
            presenter.topThreeWorkingLevels().length<3? Container()
-               :levelContainer(height, width*0.33, 0.3,presenter.topThreeWorkingLevels()[2], Colors.blueGrey[600] as Color)
+               :levelContainer(height, width*0.33, 0.3,presenter.topThreeWorkingLevels()[2], MyColors().rightLevelColor)
          ],
        ),
      ),
@@ -194,11 +191,15 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
              alignment: Alignment.bottomCenter,
              child: Row(
                mainAxisAlignment: MainAxisAlignment.center,
-               crossAxisAlignment: CrossAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.end,
                children: [
-                 Text(presenter.numberOfPeopleInLevelMap()[int.tryParse(level.name)].toString(),style: TextStyle(color: Colors.blueGrey),),
+                 Container(
+                     alignment: Alignment.bottomCenter,
+                     height: height*0.2,
+                     child: Text(presenter.numberOfPeopleInLevelMap()[int.tryParse(level.name)].toString(),
+                       style: TextStyle(color: MyColors().levelWorkersNumberColor,fontSize: height*0.2),)),
                  SizedBox(width: width*0.05),
-                 IconsUtils().SvgIcon(path: 'icons/combinedShape.svg',height: height*0.3),
+                 IconsUtils().SvgIcon(path: 'icons/combinedShape.svg',height: height*0.3,color: MyColors().workerIconColor),
                ],
              ),
            ),
@@ -209,8 +210,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
            height:  height* insideHeight,
            child: Align(
              alignment: Alignment.bottomLeft,
-             child: RichText(text: TextSpan(text: 'LVL',style: TextStyle(color: Colors.grey[200],fontSize: height*0.1,fontWeight: FontWeight.bold),children: [
-               TextSpan(text: level.name,style: TextStyle(color: Colors.grey[200],fontSize: height*0.2,fontWeight: FontWeight.bold))
+             child: RichText(text: TextSpan(text: 'LVL',style: TextStyle(color: MyColors().totalWorkersTextColor,fontSize: height*0.1,fontWeight: FontWeight.bold),children: [
+               TextSpan(text: level.name,style: TextStyle(color: MyColors().totalWorkersTextColor,fontSize: height*0.2,fontWeight: FontWeight.bold))
              ]),),
            ),
          )
@@ -274,7 +275,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                   style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey[700],fontSize: height*0.18),),
                 Expanded(child: SizedBox()),
                 Text('${presenter.checkedInWorkersForContractor(contractor).length}/${presenter.workersForContractor(contractor).length} Checked in',
-                  style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                  style: TextStyle(color: MyColors().checkedInWorkersTextColor,fontWeight: FontWeight.bold),),
                 SizedBox(width: width*0.1,)
               ],
             ),
@@ -307,6 +308,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
 
   // the worker list tile single widget
   Widget workerListTile(double height,double width,User user){
+    Color tileColor = user.isCheckedIn? MyColors().checkedInListTileColor : MyColors().checkedOutListTileColor;
       return Center(
         child: Card(
           elevation: 5,
@@ -318,7 +320,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  color: GeneralUtils().getTradeColor(user.trade),
+                  color: user.isCheckedIn? MyColors().checkedInListTileColor : MyColors().checkedOutWorkersTextColor,
                   width: width*0.03,
                 ),
                 SizedBox(width: width*0.06,),
@@ -330,11 +332,11 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                     children: [
                       IconsUtils().SvgIcon(
                           path: IconsUtils().pathIconForTrade(user.trade),
-                          color: Colors.grey,
+                          color: MyColors().tradeIconColor,
                           height: height*0.6,
                           width: width*0.1
                       ),
-                      Text(user.trade,style: TextStyle(color: Colors.grey,fontSize: height*0.15),)
+                      Text(user.trade,style: TextStyle(color: MyColors().tradeIconColor,fontSize: height*0.15),)
                     ],
                   ),
                 ),
@@ -345,11 +347,11 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(user.name,style: TextStyle(fontSize: height*0.2,color: Colors.blueGrey[700],fontWeight: FontWeight.w500),),
+                      Text(user.name,style: TextStyle(fontSize: height*0.2,color: MyColors().workerNameColor,fontWeight: FontWeight.w500),),
                       Text(presenter.contractorById(user.contractorId).name,style: TextStyle(fontSize: height*0.16,color: Colors.blueGrey),),
                       RichText(text: TextSpan(text: 'Arrived to ', style: TextStyle(color: Colors.black,fontSize: height*0.14),
                         children: [
-                          TextSpan(text: presenter.locationString(user.location),style: TextStyle(color: Colors.blue,fontSize: height*0.14)),
+                          TextSpan(text: presenter.locationString(user.location),style: TextStyle(color: tileColor,fontSize: height*0.14)),
                           TextSpan(text: '    '),
                           TextSpan(text: presenter.lastSeenString(user.lastSeen),style: TextStyle(color: Colors.black,fontSize: height*0.14))
                         ]

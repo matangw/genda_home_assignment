@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Genda Home Assignment',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: 'Anton-Regular'
       ),
       home: HomePageComponent()
     );

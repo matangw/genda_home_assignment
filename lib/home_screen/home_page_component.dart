@@ -51,8 +51,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   Widget build(BuildContext context) {
    double height = MediaQuery.of(context).size.height - myAppBar().preferredSize.height- MediaQuery.of(context).padding.top;
    double width = MediaQuery.of(context).size.width;
-    return isLoading ? Center(child: CircularProgressIndicator(color: MyColors().darkGrey,),)
-   :Scaffold(
+    return Scaffold(
       appBar: myAppBar(),
       body:  SingleChildScrollView(
         child: Container(
@@ -140,7 +139,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                crossAxisAlignment: CrossAxisAlignment.start,
                mainAxisAlignment: MainAxisAlignment.end,
                children: [
-                 Text(value.toString(),style: TextStyle(color:color,fontSize: height*0.35,fontWeight: FontWeight.bold ),textAlign: TextAlign.start,),
+                 Text(value.toString(),style: TextStyle(color:color,fontSize: height*0.3,fontFamily: 'AntonRegular',fontWeight: FontWeight.bold ),textAlign: TextAlign.start,),
                  Text(title,style: TextStyle(color: color,fontSize: height*0.16,fontWeight: FontWeight.bold),textAlign: TextAlign.start,),
                  Text(subtitle,style: TextStyle(color: color,fontSize: height*0.12,fontWeight: FontWeight.bold),textAlign: TextAlign.start,)
                ],

@@ -24,12 +24,19 @@ class IconsUtils{
 
   // function with input of certain trade that will return the icon path for it
   String pathIconForTrade(String trade){
-      if(trade == 'bricks') {return 'icons/worconsBricksTl3.svg'; }
-      else if(trade == 'ceiling') {return 'icons/worconsCleaningTl3.svg'; }
-      else if(trade == 'doors'){return 'icons/worconsDoorsTl3.svg';}
-      else if(trade == 'plaster'){return 'icons/worconsPlasterTl3.svg';}
-      else
-        {return '[-] no icon found';}
+    switch(trade){
+      case 'bricks':
+        return 'icons/worconsBricksTl3.svg';
+      case 'ceiling':
+        return 'icons/worconsCleaningTl3.svg';
+      case  'doors':
+        return 'icons/worconsDoorsTl3.svg';
+      case 'plaster':
+        return 'icons/worconsPlasterTl3.svg';
+      default:
+        return '[-] no icon found';
+    }
+
 
   }
 

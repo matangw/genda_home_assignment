@@ -130,7 +130,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
        child: Stack(
          children: [
            Positioned(top: height*0.01,right: width*0.01,child: filter == currentFilter?
-                IconsUtils().SvgIcon(path: 'icons/eyeWhite.svg',color: Colors.white, height: height*0.18,width: width*0.18)
+                IconsUtils().SvgIcon(path: 'icons/eyeWhite.svg',color: color, height: height*0.18,width: width*0.18)
                : Container()) ,
            Positioned(
              bottom: height*0.01,
@@ -282,12 +282,18 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
         },
         body: Container(
           color: Colors.transparent,
-          height: height*1.1*presenter.workersForContractor(contractor,workersWithStatus: workers).length,
+          height:presenter.workersForContractor(contractor,workersWithStatus: workers).isNotEmpty?
+          height*1.1*presenter.workersForContractor(contractor,workersWithStatus: workers).length   : height*0.9,
           width: width,
           child:ListView(
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            children: workerListCreation(height, width*0.9,presenter.workersForContractor(contractor,workersWithStatus: workers)),) ,
+            children:
+            presenter.workersForContractor(contractor,workersWithStatus: workers).isNotEmpty?
+            workerListCreation(height, width*0.9,presenter.workersForContractor(contractor,workersWithStatus: workers))
+                :[Container(height: height*0.9, width: width*0.9,
+              child: const Center(child: Text('No available users', style: TextStyle(fontWeight: FontWeight.bold),),),)]
+          ) ,
         ),
       isExpanded: thisIsOpen
     );

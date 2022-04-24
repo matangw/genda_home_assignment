@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:genda_home_assignment/home_screen/home_page_view.dart';
+import 'package:genda_home_assignment/home_page/home_page_view.dart';
 import 'package:genda_home_assignment/models/contractor.dart';
 import 'package:genda_home_assignment/models/level.dart';
 import 'package:genda_home_assignment/models/location.dart';

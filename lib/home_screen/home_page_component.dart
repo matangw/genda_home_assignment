@@ -51,7 +51,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
   Widget build(BuildContext context) {
    double height = MediaQuery.of(context).size.height - myAppBar().preferredSize.height- MediaQuery.of(context).padding.top;
    double width = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return isLoading ? Center(child: CircularProgressIndicator(color: MyColors().darkGrey,),)
+   :Scaffold(
       appBar: myAppBar(),
       body:  SingleChildScrollView(
         child: Container(

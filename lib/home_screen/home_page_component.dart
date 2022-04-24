@@ -10,7 +10,7 @@ import 'package:genda_home_assignment/utils/general_utils.dart';
 
 import '../models/level.dart';
 import '../models/user.dart';
-import '../utils/icons_utils.dart';
+import '../utils/icon_utils.dart';
 import 'home_page_view.dart';
 
 
@@ -130,7 +130,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
        child: Stack(
          children: [
            Positioned(top: height*0.01,right: width*0.01,child: filter == currentFilter?
-                IconsUtils().SvgIcon(path: 'icons/eyeWhite.svg',color: color, height: height*0.18,width: width*0.18)
+                IconUtils().SvgIcon(path: 'icons/eyeWhite.svg',color: color, height: height*0.18,width: width*0.18)
                : Container()) ,
            Positioned(
              bottom: height*0.01,
@@ -198,7 +198,7 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                      child: Text(presenter.numberOfPeopleInLevelMap()[int.tryParse(level.name)].toString(),
                        style: TextStyle(color: MyColors().levelWorkersNumberColor,fontSize: height*0.2),)),
                  SizedBox(width: width*0.05),
-                 IconsUtils().SvgIcon(path: 'icons/combinedShape.svg',height: height*0.3,color: MyColors().workerIconColor),
+                 IconUtils().SvgIcon(path: 'icons/combinedShape.svg',height: height*0.3,color: MyColors().workerIconColor),
                ],
              ),
            ),
@@ -335,8 +335,8 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconsUtils().SvgIcon(
-                          path: IconsUtils().pathIconForTrade(user.trade),
+                      IconUtils().SvgIcon(
+                          path: IconUtils().pathIconForTrade(user.trade),
                           color: MyColors().tradeIconColor,
                           height: height*0.6,
                           width: width*0.1
@@ -354,11 +354,11 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                     children: [
                       Text(user.name,style: TextStyle(fontSize: height*0.2,color: MyColors().workerNameColor,fontWeight: FontWeight.w500),),
                       Text(presenter.contractorById(user.contractorId).name,style: TextStyle(fontSize: height*0.16,color: Colors.blueGrey),),
-                      RichText(text: TextSpan(text: 'Arrived to ', style: TextStyle(color: Colors.black,fontSize: height*0.13),
+                      RichText(text: TextSpan(text: 'Arrived to ', style: TextStyle(color: Colors.black,fontSize: width*0.03),
                         children: [
-                          TextSpan(text: presenter.locationString(user.location),style: TextStyle(color: tileColor,fontSize: height*0.14)),
+                          TextSpan(text: presenter.locationString(user.location),style: TextStyle(color: tileColor,fontSize: width*0.03)),
                           TextSpan(text: ' '),
-                          TextSpan(text: presenter.lastSeenString(user.lastSeen),style: TextStyle(color: Colors.black,fontSize: height*0.13))
+                          TextSpan(text: presenter.lastSeenString(user.lastSeen),style: TextStyle(color: Colors.black,fontSize: width*0.03))
                         ]
                       ),
                       )

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class IconsUtils{
+class IconUtils{
 
 
   // widget to use when wanting an svg image as widget

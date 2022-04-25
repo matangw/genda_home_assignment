@@ -354,11 +354,15 @@ class _HomePageComponentState extends State<HomePageComponent> implements HomePa
                     children: [
                       Text(user.name,style: TextStyle(fontSize: height*0.2,color: MyColors().workerNameColor,fontWeight: FontWeight.w500),),
                       Text(presenter.contractorById(user.contractorId).name,style: TextStyle(fontSize: height*0.16,color: Colors.blueGrey),),
-                      RichText(text: TextSpan(text: 'Arrived to ', style: TextStyle(color: Colors.black,fontSize: width*0.03),
+                      RichText(
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(text: 'Arrived to ', style: TextStyle(color: Colors.black,fontSize: width*0.03),
                         children: [
-                          TextSpan(text: presenter.locationString(user.location),style: TextStyle(color: tileColor,fontSize: width*0.03)),
+                          TextSpan(text: presenter.locationString(user.location),
+                              style: TextStyle(color: tileColor,fontSize: width*0.03)),
                           TextSpan(text: ' '),
-                          TextSpan(text: presenter.lastSeenString(user.lastSeen),style: TextStyle(color: Colors.black,fontSize: width*0.03))
+                          TextSpan(text: presenter.lastSeenString(user.lastSeen),
+                              style: TextStyle(color: Colors.black,fontSize: width*0.03),)
                         ]
                       ),
                       )
